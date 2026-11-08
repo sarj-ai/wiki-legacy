@@ -399,6 +399,13 @@
       "count": 1
     },
     {
+      "fingerprint": "f71c5c3aabada1ba05e05abfb29057273ec28c6c187b436b53a3ba50e3e21362",
+      "source": "sarj-iac-lint",
+      "ruleId": "no-terraform-guard-blocks",
+      "path": "terraform/variables.tf",
+      "count": 15
+    },
+    {
       "fingerprint": "585f361f931f2c34335ec054f76633e4ed155c9eeb0078fadce06d5faf26d9fe",
       "source": "sarj-python-lint",
       "ruleId": "fakes-in-shared-location",
