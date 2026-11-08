@@ -35,7 +35,7 @@ const SELECTORS: readonly string[] = [
 interface OwnedRule {
   name: string;
   meta: RuleMeta & {
-    docs?: { description: string; requiresTypeChecking: boolean };
+    docs: { description: string; requiresTypeChecking: boolean };
     defaultOptions: unknown[];
   };
   create(context: Context): Visitor;
@@ -45,7 +45,13 @@ export function createRule(
   definition: OwnedRule,
 ): CreateOnceRule & { meta: OwnedRule["meta"] } {
   return {
-    meta: definition.meta,
+    meta: {
+      ...definition.meta,
+      docs: {
+        ...definition.meta.docs,
+        url: `https://github.com/sarj-ai/wiki/blob/main/frontend/scripts/eslint-owned/rules/${definition.name}.ts`,
+      },
+    },
     createOnce(context) {
       let visitor: Visitor = {};
 
