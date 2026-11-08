@@ -44,6 +44,26 @@ def _step_index(steps: list[dict[str, Any]], name: str) -> int:
     return steps.index(_named_step(steps, name))
 
 
+def test_frontend_standards_cache_keeps_python_and_avoids_shared_entries() -> None:
+    steps = _workflow("ci-frontend.yml")["jobs"]["lint-and-typecheck"]["steps"]
+    installer = _named_step(steps, "Install uv")
+    cache = installer["with"]
+
+    assert cache["enable-cache"] is True
+    assert cache["cache-python"] is True
+    dependencies = set(cache["cache-dependency-glob"].splitlines())
+    assert dependencies == {
+        ".sarj-standards.toml",
+        ".github/workflows/ci-frontend.yml",
+        "backend/uv.toml",
+    }
+    for workflow_path in (ROOT / ".github/workflows").glob("*.yml"):
+        for job in _workflow(workflow_path.name)["jobs"].values():
+            for step in job.get("steps", []):
+                if step.get("uses", "").startswith("astral-sh/setup-uv@") and step != installer:
+                    assert step.get("with", {}).get("cache-suffix") != cache["cache-suffix"]
+
+
 def test_qualification_runners_work_without_private_services_and_allow_an_owned_override() -> None:
     for path in (ROOT / ".github" / "workflows").glob("*.yml"):
         workflow = _workflow(path.name)

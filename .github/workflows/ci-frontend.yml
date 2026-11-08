@@ -70,6 +70,14 @@ jobs:
         uses: astral-sh/setup-uv@07a047e608db84b3d8c06cd9a7c7dcc9c355c18e # v10.3.2
         with:
           version-file: backend/uv.toml
+          enable-cache: true
+          cache-python: true
+          # A shared Python cache can hit before Standards packages were saved.
+          cache-suffix: frontend-standards-v1
+          cache-dependency-glob: |
+            .sarj-standards.toml
+            .github/workflows/ci-frontend.yml
+            backend/uv.toml
       - name: Install the pinned native tool bootstrap
         working-directory: .
         env:
