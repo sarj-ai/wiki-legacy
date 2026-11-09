@@ -83,6 +83,9 @@ jobs:
       - name: Install backend analysis dependencies
         working-directory: .
         run: uv sync --locked --project backend
+      - name: Initialize locked Terraform providers
+        working-directory: .
+        run: mise --no-config --no-env --no-hooks exec aqua:hashicorp/terraform@1.17.0 -- terraform -chdir=terraform init -backend=false -input=false -lockfile=readonly
       - name: Native lint with exact baseline
         env:
           SARJ_STANDARDS_BASE: >-
