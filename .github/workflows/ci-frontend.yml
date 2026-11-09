@@ -80,6 +80,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: uvx --no-config --isolated --python 3.14 --from sarj-standards-bootstrap code-standards setup --tools-only
+      - name: Install backend analysis dependencies
+        working-directory: .
+        run: uv sync --locked --project backend
       - name: Native lint with exact baseline
         env:
           SARJ_STANDARDS_BASE: >-
