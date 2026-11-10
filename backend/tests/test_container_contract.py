@@ -2,7 +2,6 @@ from pathlib import Path
 
 
 _DOCKERFILE = Path(__file__).parents[1] / "Dockerfile"
-_QA_DOCKERFILE = Path(__file__).parents[1] / "Dockerfile.qa"
 _REPOSITORY_ROOT = Path(__file__).parents[2]
 _DEPLOY_WORKFLOW = _REPOSITORY_ROOT / ".github/workflows/deploy-backend.yml"
 _DEPLOY_CANDIDATE = _REPOSITORY_ROOT / "scripts/github/deploy-backend-candidate.sh"
@@ -12,7 +11,6 @@ _LEGACY_CACHE_CLEANUP_MODULE = _REPOSITORY_ROOT / "backend/app/cache/cleanup_leg
 _VERIFY_LOGS = _REPOSITORY_ROOT / "scripts/github/verify-backend-correlated-logs.sh"
 _MIGRATIONS_TERRAFORM = _REPOSITORY_ROOT / "terraform/migrations.tf"
 _BACKEND_CI = _REPOSITORY_ROOT / ".github/workflows/ci-backend.yml"
-_QA_TERRAFORM = _REPOSITORY_ROOT / "terraform/document_transform_qa.tf"
 
 
 def test_application_container_does_not_run_database_migrations() -> None:

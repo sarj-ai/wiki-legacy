@@ -152,5 +152,24 @@
         "document_transform_qa_corpus_source_folder_id"
       ]
     }
+  },
+  "migrationVerificationExceptions": {
+    "reason": "One-time transactional data reshaping and disposable old-schema migration tests require direct database access. These exact exceptions are reviewed against the native SARJ020/SARJ429 guidance; no application query receives an allowance.",
+    "baseline": "suppression-baseline.json",
+    "rules": {
+      "SARJ020": {
+        "count": 2,
+        "path": "backend/alembic/versions/0025_simplify_storage.py",
+        "reason": "Atomic per-user JSON map construction preserves all legacy icon/sort rows during the authorized schema migration."
+      },
+      "SARJ429": {
+        "count": 10,
+        "paths": [
+          "backend/tests/test_storage_simplification_postgres.py",
+          "backend/tests/test_auth_domain_migration.py"
+        ],
+        "reason": "Seed the pre-migration schema and assert PostgreSQL constraints/data preservation before current ORM columns exist."
+      }
+    }
   }
 }
